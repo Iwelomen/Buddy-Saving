@@ -1,4 +1,5 @@
 import 'package:buddy_saving/screens/screen1.dart';
+import 'package:buddy_saving/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ScreenOne(),
+      home: const WelcomeScreen(),
     );
   }
 }

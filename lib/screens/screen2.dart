@@ -2,8 +2,8 @@ import 'package:buddy_saving/Utils/custom_app_bar.dart';
 import 'package:buddy_saving/Utils/dashboard.dart';
 import 'package:buddy_saving/screens/screen3.dart';
 import 'package:flutter/material.dart';
-
 import '../Utils/app_button.dart';
+import 'package:intl/intl.dart';
 
 enum Frequency { Daily, Weekly, Monthly }
 
@@ -16,6 +16,45 @@ class ScreenTwo extends StatefulWidget {
 
 class _ScreenTwoState extends State<ScreenTwo> {
   Frequency? _character = Frequency.Daily;
+
+  var formatter = DateFormat('yyyy/dd/MM');
+  DateTime selectedDate = DateTime.now();
+
+
+  String dateGet = "";
+
+  Future<Null> _selectDate( context) async {
+    final DateTime? picked = await showDatePicker(
+      builder: ( context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme:  const ColorScheme.light(
+              primary: Colors.purple, // header background color
+              onPrimary: Colors.white, // header text color
+              onSurface: Colors.black, // body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: Colors.black, // button text color
+              ),
+            ),
+          ),
+          child: child ?? SizedBox(),
+        );
+      },
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1959),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+    dateGet = formatter.format(selectedDate);
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -31,7 +70,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
                   children: [
                     const CustomAppBar(),
                     DashBoard(screenWidth: screenWidth),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     Row(
                       children: const [
                         Text(
@@ -73,12 +112,12 @@ class _ScreenTwoState extends State<ScreenTwo> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Expanded(
                           child: Container(
                             height: 100,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
                                 border: Border.all(color: Colors.grey, width: 1)),
@@ -144,15 +183,17 @@ class _ScreenTwoState extends State<ScreenTwo> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              '06/12/2022',
-                              style: TextStyle(
+                             Text(
+                              dateGet ?? '06/12/2022',
+                              style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w200),
                             ),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                _selectDate(context);
+                              },
                               icon: const Icon(Icons.calendar_month),
                             )
                           ],

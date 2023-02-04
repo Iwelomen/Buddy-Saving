@@ -1,3 +1,4 @@
+import 'package:buddy_saving/constant/app_color.dart';
 import 'package:flutter/material.dart';
 
 class DashBoard extends StatelessWidget {
@@ -14,7 +15,10 @@ class DashBoard extends StatelessWidget {
               bottomRight: Radius.circular(30),
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30)),
-          color: Colors.deepPurple),
+      gradient: LinearGradient(colors: [
+        appColor1, appColor2
+      ])
+      ),
       child: Row(
         children: [
           const SizedBox(width: 20),

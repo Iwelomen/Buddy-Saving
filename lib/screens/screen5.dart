@@ -1,4 +1,5 @@
 import 'package:buddy_saving/Utils/custom_app_bar.dart';
+import 'package:buddy_saving/constant/app_color.dart';
 import 'package:flutter/material.dart';
 
 import '../Utils/app_button.dart';
@@ -40,7 +41,9 @@ class _ScreenFiveState extends State<ScreenFive> {
                   height: 400,
                   width: screenWidth,
                   decoration: BoxDecoration(
-                      color: Colors.deepPurple,
+                      gradient: const LinearGradient(colors: [
+                        appColor1, appColor2
+                      ]),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(30),
                       ),
@@ -92,7 +95,7 @@ class _ScreenFiveState extends State<ScreenFive> {
                                       style: TextStyle(
                                           fontSize: 11,
                                           fontWeight: FontWeight.w600,
-                                          color: Colors.blue),
+                                          color: appColor3),
                                     )
                                   ]),
                                 ),
@@ -155,9 +158,9 @@ class _ScreenFiveState extends State<ScreenFive> {
                               const LinearProgressIndicator(
                                 value: 0.2,
                                 minHeight: 5,
-                                color: Colors.red,
+                                backgroundColor: appColor4,
                                 valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                                    AlwaysStoppedAnimation<Color>(appColor3),
                               ),
                               const SizedBox(height: 20),
                               Row(

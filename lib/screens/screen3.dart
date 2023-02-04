@@ -1,6 +1,7 @@
 import 'package:buddy_saving/Utils/custom_text_field.dart';
 import 'package:buddy_saving/screens/screen4.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../Utils/app_button.dart';
 import '../Utils/custom_app_bar.dart';
@@ -15,6 +16,43 @@ class ScreenThree extends StatefulWidget {
 
 class _ScreenThreeState extends State<ScreenThree> {
   final TextEditingController _amountController = TextEditingController();
+
+  var formatter = DateFormat('yyyy/dd/MM');
+  DateTime selectedDate = DateTime.now();
+   String dateGet = "";
+
+  Future<Null> _selectDate( context) async {
+    final DateTime? picked = await showDatePicker(
+      builder: ( context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme:  const ColorScheme.light(
+              primary: Colors.purple, // header background color
+              onPrimary: Colors.white, // header text color
+              onSurface: Colors.black, // body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: Colors.black, // button text color
+              ),
+            ),
+          ),
+          child: child ?? SizedBox(),
+        );
+      },
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1959),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+    dateGet = formatter.format(selectedDate);
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -78,15 +116,17 @@ class _ScreenThreeState extends State<ScreenThree> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              'Today',
-                              style: TextStyle(
+                             Text(
+                              dateGet ?? 'Today',
+                              style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w200),
                             ),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                _selectDate(context);
+                              },
                               icon: const Icon(Icons.calendar_month),
                             )
                           ],

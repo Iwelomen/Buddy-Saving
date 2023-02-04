@@ -1,3 +1,4 @@
+import 'package:buddy_saving/constant/app_color.dart';
 import 'package:flutter/material.dart';
 
 class AppButton extends StatelessWidget {
@@ -14,7 +15,7 @@ class AppButton extends StatelessWidget {
           borderRadius: BorderRadius.all(
             Radius.circular(10),
           ),
-          color: Colors.deepPurple),
+          color: appColor2),
       child:  Center(
         child: Text(
           text,

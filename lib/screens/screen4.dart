@@ -1,5 +1,6 @@
 import 'package:buddy_saving/screens/screen5.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../Utils/app_button.dart';
 import '../Utils/custom_app_bar.dart';
 import '../Utils/dashboard.dart';
@@ -15,6 +16,78 @@ class ScreenFour extends StatefulWidget {
 
 class _ScreenFourState extends State<ScreenFour> {
   SaveDuration? _character = SaveDuration.threeMonths;
+
+  var formatter = DateFormat('yyyy/dd/MM');
+  DateTime selectedDate = DateTime.now();
+  DateTime selectedEndDate = DateTime.now();
+
+   String dateGet = '';
+   String endDateGet = '';
+
+  Future<Null> _selectDate( context) async {
+    final DateTime? picked = await showDatePicker(
+      builder: ( context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme:  const ColorScheme.light(
+              primary: Colors.purple, // header background color
+              onPrimary: Colors.white, // header text color
+              onSurface: Colors.black, // body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: Colors.black, // button text color
+              ),
+            ),
+          ),
+          child: child ?? SizedBox(),
+        );
+      },
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1959),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+    dateGet = formatter.format(selectedDate);
+  }
+
+  Future<Null> _selectEndDate( context) async {
+    final DateTime? picked = await showDatePicker(
+      builder: ( context,  child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Colors.purple, // header background color
+              onPrimary: Colors.white, // header text color
+              onSurface: Colors.black, // body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: Colors.black, // button text color
+              ),
+            ),
+          ),
+          child: child ?? const SizedBox(),
+        );
+      },
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1959),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedEndDate) {
+      setState(() {
+        selectedEndDate = picked;
+      });
+    }
+    endDateGet = formatter.format(selectedEndDate);
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -78,15 +151,17 @@ class _ScreenFourState extends State<ScreenFour> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text(
-                                        '06/12/2022',
-                                        style: TextStyle(
+                                       Text(
+                                        dateGet ?? '06/12/2022',
+                                        style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 18,
                                             fontWeight: FontWeight.w200),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          _selectDate(context);
+                                        },
                                         icon: const Icon(Icons.calendar_month),
                                       )
                                     ],
@@ -125,15 +200,17 @@ class _ScreenFourState extends State<ScreenFour> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text(
-                                        '06/12/2022',
-                                        style: TextStyle(
+                                       Text(
+                                        endDateGet ?? '06/12/2022',
+                                        style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 18,
                                             fontWeight: FontWeight.w200),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          _selectEndDate(context);
+                                        },
                                         icon: const Icon(Icons.calendar_month),
                                       )
                                     ],
@@ -143,7 +220,7 @@ class _ScreenFourState extends State<ScreenFour> {
                             ],
                           ),
                         ),
-                        SizedBox(width: 50,)
+                        const SizedBox(width: 40,)
                       ],
                     ),
                     const SizedBox(height: 20),
